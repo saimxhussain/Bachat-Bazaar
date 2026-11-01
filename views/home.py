@@ -60,7 +60,7 @@ with main:
             x=series.index, y=series.values, mode="lines", line=dict(color="#3B63F5", width=2.6, shape="spline", smoothing=1),
             fill="tozeroy", fillcolor="rgba(59,99,245,.13)",
             hovertemplate="%{x|%b %d, %Y}<br><b>" + fmt + "</b><extra></extra>"))
-        fig.update_layout(height=300, margin=dict(l=0, r=0, t=6, b=0), showlegend=False)
+        fig.update_layout(template="bazaar", height=300, margin=dict(l=0, r=0, t=6, b=0), showlegend=False)
         fig.update_xaxes(showgrid=False, tickformat="%b %d")
         fig.update_yaxes(rangemode="tozero", tickprefix="£" if metric == "Revenue" else "", tickformat="~s")
         st.plotly_chart(fig, width="stretch")
@@ -80,7 +80,7 @@ with main:
                          series=cur[cur.StockCode == code].groupby("Date").Revenue.sum().values, img=pics.get(names[code], "")))
     a, b = st.columns([1.6, 1])
     with a.container(key="card-top"):
-        st.html(ui.card_head("Top Products", f"Best performing products in this period.", "box"))
+        st.html(ui.card_head("Top Products", "Best performing products in this period.", "box"))
         ui.top_products(rows, "Stock levels are simulated until you upload your own on the Stock Alerts page. "
                               "Product photos are matched from the web by name and may not be exact.")
     with b.container(key="card-orders"):

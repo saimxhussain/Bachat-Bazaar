@@ -8,7 +8,7 @@ import streamlit as st
 
 from core import images
 from core import models as M
-from core.theme import icon
+from core.theme import icon, mask_style, svg_uri
 
 
 # ───────────── helpers ─────────────
@@ -56,8 +56,10 @@ def spark(vals, w=130, h=46, pad=3) -> str:
         c2 = (p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6)
         d += f" C{c1[0]:.1f},{c1[1]:.1f} {c2[0]:.1f},{c2[1]:.1f} {p2[0]:.1f},{p2[1]:.1f}"
     area = d + f" L{pts[-1][0]:.1f},{h} L{pts[0][0]:.1f},{h} Z"
-    return (f'<div class="spark"><svg class="a" viewBox="0 0 {w} {h}" preserveAspectRatio="none"><path d="{area}"/></svg>'
-            f'<svg class="l" viewBox="0 0 {w} {h}" preserveAspectRatio="none"><path d="{d}"/></svg></div>')
+    par = 'preserveAspectRatio="none"'
+    a = svg_uri(f'<path d="{area}"/>', w, h, 0, "black", par)
+    l = svg_uri(f'<path d="{d}"/>', w, h, 2, "none", par)
+    return f'<div class="spark"><div class="a" style="{mask_style(a)}"></div><div class="l" style="{mask_style(l)}"></div></div>'
 
 
 def _chip(p) -> str:

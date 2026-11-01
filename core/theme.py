@@ -3,6 +3,7 @@
 Call `theme.apply()` once from app.py. Page components live in core/ui.py.
 """
 from html import escape
+from urllib.parse import quote
 
 import plotly.graph_objects as go
 import plotly.io as pio
@@ -54,7 +55,16 @@ CSS = """
   --green:#16A34A;--green-soft:#E3F7EA;--red:#DC2626;--red-soft:#FDE8E8;--orange:#F97316;--amber-soft:#FFF3D6;--amber:#B7791F;
   --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px -14px rgba(16,24,40,.14)}
 
-.stApp{background:#FAFBFD !important}
+:root{color-scheme:light}
+.stApp{background:#FAFBFD !important;color:var(--text) !important}
+.stApp [data-testid="stMarkdownContainer"],.stApp [data-testid="stWidgetLabel"],.stApp [data-testid="stMetricValue"],
+.stApp [data-testid="stMetricLabel"],.stApp label,.stApp h1,.stApp h2,.stApp h3,.stApp h4{color:var(--text)}
+.stApp [data-testid="stCaptionContainer"],.stApp [data-testid="stMetricLabel"]{color:var(--muted)}
+[data-testid="stSidebar"] *{color:#374151}
+[data-testid="stSidebarNavLink"][aria-current="page"],[data-testid="stSidebarNavLink"][aria-current="page"] *{color:var(--blue) !important}
+[data-baseweb="select"] *,[data-baseweb="input"] input{color:var(--text)}
+[data-baseweb="popover"] [role="listbox"],[data-baseweb="menu"]{background:#fff !important}
+[data-baseweb="popover"] li{color:var(--text) !important}
 .stApp, .stApp :is(p,li,label,h1,h2,h3,h4,h5,h6,button,input,textarea,a,td,th,
   [data-testid="stMetricValue"],[data-testid="stMetricLabel"]){
   font-family:'Inter','Segoe UI',system-ui,sans-serif !important}
@@ -118,9 +128,11 @@ h1,h2,h3{letter-spacing:-.015em;font-weight:700 !important}
   box-shadow:inset 0 1.5px 1px rgba(255,255,255,.85),inset 0 -10px 18px rgba(255,255,255,.1),0 12px 22px -10px var(--c2)}
 .bz-gi .glass::after{content:"";position:absolute;left:10%;top:6%;width:58%;height:34%;border-radius:50%;
   background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0));filter:blur(1px)}
-.bz-gi svg{position:relative;z-index:1;width:46%;height:46%;stroke:#fff;fill:none;stroke-width:1.9;
-  stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
-.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.bz-gi .ic{position:relative;z-index:1;width:46%;height:46%;color:#fff}
+/* icons are CSS masks (inline svg tags get stripped by the html sanitizer) */
+.ic{display:inline-block;width:1em;height:1em;flex:none;background:currentColor;vertical-align:middle;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;
+  -webkit-mask-size:contain;mask-size:contain}
 
 /* small tinted glass tile used on KPI cards */
 .bz-ki{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;flex:none;font-size:20px;
@@ -137,7 +149,7 @@ h1,h2,h3{letter-spacing:-.015em;font-weight:700 !important}
 /* ── top bar ───────────────────────────────────────────── */
 .st-key-bz_search input{height:46px;padding-left:44px !important;border-radius:12px;
   background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat 14px center/18px}
-.bz-user{display:flex;align-items:center;justify-content:flex-end;gap:.6rem;font-weight:600}
+.bz-user{padding-right:2.2rem;display:flex;align-items:center;justify-content:flex-end;gap:.6rem;font-weight:600}
 .bz-user .av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;
   background:linear-gradient(135deg,#7C8CFF,#6D4DFF)}
 .bz-sr{margin:.4rem 0 1rem}
@@ -159,10 +171,10 @@ h1,h2,h3{letter-spacing:-.015em;font-weight:700 !important}
 .chip.up{background:var(--green-soft);color:var(--green)}.chip.down{background:var(--red-soft);color:var(--red)}
 .chip.flat{background:#F1F3F9;color:var(--muted)}
 .spark{position:relative;height:46px;margin-top:.6rem;color:var(--c)}
-.spark svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.spark .a path{fill:var(--c);stroke:none}
-.spark .a{opacity:.26;-webkit-mask-image:linear-gradient(#000,transparent);mask-image:linear-gradient(#000,transparent)}
-.spark .l path{fill:none;stroke:var(--c);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+.spark .a,.spark .l{position:absolute;inset:0;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-size:100% 100%;mask-size:100% 100%}
+.spark .a{background:linear-gradient(180deg,var(--c),transparent);opacity:.3}
+.spark .l{background:var(--c)}
 
 .bz-ch h3{margin:0;font-size:1.08rem;font-weight:600 !important;letter-spacing:-.01em}
 .bz-ch p{margin:.2rem 0 .7rem;color:var(--muted);font-size:.84rem}
@@ -218,6 +230,8 @@ h1,h2,h3{letter-spacing:-.015em;font-weight:700 !important}
   background:var(--blue-soft);color:var(--blue)}
 .bz-ap b{display:block;font-weight:600;font-size:.84rem}
 .bz-ap span.s{display:block;color:var(--muted);font-size:.74rem}
+.bz-ap > div:nth-child(2){min-width:0;flex:1}
+.bz-ap .pill{flex:none;overflow:visible;max-width:none}
 .bz-ap .go{margin-left:.2rem;color:#9CA3AF;font-size:16px}
 
 @media (prefers-reduced-motion:reduce){*{transition:none !important}}
@@ -229,7 +243,7 @@ def _plotly_template():
     axis = dict(gridcolor="#EEF0F6", zerolinecolor="#E5E7EB", linecolor="#E5E7EB", tickfont=dict(color="#6B7280", size=11))
     t.layout = go.Layout(
         font=dict(family="Inter, Segoe UI, sans-serif", color="#374151"),
-        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", colorway=PALETTE,
+        paper_bgcolor="#FFFFFF", plot_bgcolor="#FFFFFF", colorway=PALETTE,
         xaxis=axis, yaxis=axis, legend=dict(bgcolor="rgba(0,0,0,0)"),
         title=dict(font=dict(size=15)), margin=dict(l=12, r=12, t=48, b=12),
         hoverlabel=dict(bgcolor="#FFFFFF", bordercolor="#E5E7EB", font=dict(color="#111827")))
@@ -263,14 +277,25 @@ def apply():
     st.html(f"<style>{CSS}</style>")
 
 
+def svg_uri(inner: str, w: int = 24, h: int = 24, stroke: float = 1.9, fill: str = "none", par: str = "") -> str:
+    """URL-encoded SVG data URI (used as a CSS mask)."""
+    svg = (f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {w} {h}' {par} fill='{fill}' stroke='black' "
+           f"stroke-width='{stroke}' stroke-linecap='round' stroke-linejoin='round'>{inner}</svg>")
+    return "data:image/svg+xml," + quote(svg.replace('"', "'"), safe="")
+
+
+def mask_style(uri: str) -> str:
+    return f"-webkit-mask-image:url({uri});mask-image:url({uri})"
+
+
 def icon(name: str) -> str:
-    return f'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">{ICONS[name]}</svg>'
+    return f'<span class="ic" aria-hidden="true" style="{mask_style(svg_uri(ICONS[name]))}"></span>'
 
 
 def glass_icon(name: str, tint: str = "orange", size: int = 60) -> str:
     c1, c2 = TINTS[tint]
     return (f'<div class="bz-gi" style="--s:{size}px;--c1:{c1};--c2:{c2}"><div class="orb"></div>'
-            f'<div class="glass"><svg viewBox="0 0 24 24" aria-hidden="true">{ICONS[name]}</svg></div></div>')
+            f'<div class="glass">{icon(name)}</div></div>')
 
 
 def header(page: str, title: str, caption: str):
