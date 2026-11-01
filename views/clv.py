@@ -3,12 +3,12 @@ import plotly.express as px
 import streamlit as st
 
 from core import models as M
+from core import theme
 from core.data import load_data
 from core.llm import chat_panel
 
 df = load_data()
-st.title("💎 Customer Lifetime Value")
-st.caption("Predicts how much each customer will spend over the next 12 months, so you know who deserves your effort.")
+theme.header("clv", "Customer Lifetime Value", "Predicts how much each customer will spend over the next 12 months, so you know who deserves your effort.")
 
 m = M.customer_models(df, 90)
 s, cv = m["scores"], m["clv"]

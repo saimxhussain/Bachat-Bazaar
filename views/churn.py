@@ -2,12 +2,12 @@ import plotly.express as px
 import streamlit as st
 
 from core import models as M
+from core import theme
 from core.data import load_data
 from core.llm import chat_panel
 
 df = load_data()
-st.title("⚠️ Churn Risk")
-st.caption("Which customers are about to stop buying, and how much money is at stake?")
+theme.header("churn", "Churn Risk", "Which customers are about to stop buying, and how much money is at stake?")
 
 horizon = st.radio("Churn = no purchase in the next…", [60, 90], index=1, horizontal=True, format_func=lambda d: f"{d} days")
 m = M.customer_models(df, horizon)

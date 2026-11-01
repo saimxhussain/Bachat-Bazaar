@@ -3,6 +3,7 @@ import plotly.express as px
 import streamlit as st
 
 from core import models as M
+from core import theme
 from core.data import load_data
 from core.llm import chat_panel
 
@@ -10,8 +11,7 @@ df = load_data()
 names = M.product_names(df)
 dem = M.product_demand(df)
 
-st.title("📦 Stock Alerts")
-st.caption("Forecasts demand for your 60 best sellers and tells you what to reorder before you run out.")
+theme.header("stock", "Stock Alerts", "Forecasts demand for your 60 best sellers and tells you what to reorder before you run out.")
 
 c = st.columns(3)
 lead = c[0].slider("Supplier lead time (days)", 1, 21, 7)

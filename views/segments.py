@@ -2,12 +2,12 @@ import plotly.express as px
 import streamlit as st
 
 from core import models as M
+from core import theme
 from core.data import load_data
 from core.llm import chat_panel
 
 df = load_data()
-st.title("👥 Customer Segments")
-st.caption("Groups customers by Recency, Frequency and Monetary value (RFM) using K-Means.")
+theme.header("segments", "Customer Segments", "Groups customers by Recency, Frequency and Monetary value (RFM) using K-Means.")
 
 k = st.slider("Number of segments", 3, 5, 4)
 r = M.rfm_segments(df, k)

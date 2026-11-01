@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from core import models as M
+from core import theme
 from core.data import load_data
 from core.llm import chat_panel
 
@@ -10,8 +11,7 @@ df = load_data()
 names = M.product_names(df)
 el, pooled = M.price_elasticity(df)
 
-st.title("🏷️ Promotions")
-st.caption("Estimates how sensitive each product is to price, then finds discounts that grow sales without wrecking profit.")
+theme.header("pricing", "Promotions", "Estimates how sensitive each product is to price, then finds discounts that grow sales without wrecking profit.")
 
 c = st.columns(2)
 cost = c[0].slider("Cost as % of price", 30, 85, 55, help="Your dataset has no costs, so set your typical margin here.") / 100

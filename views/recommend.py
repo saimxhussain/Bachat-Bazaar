@@ -1,6 +1,7 @@
 import streamlit as st
 
 from core import models as M
+from core import theme
 from core.data import load_data
 from core.llm import chat_panel
 
@@ -8,8 +9,7 @@ df = load_data()
 names = M.product_names(df)
 model = M.basket_model(df)
 
-st.title("🛍️ Product Recommendations")
-st.caption("Market-basket analysis: what do customers buy together? Use it for bundles and cross-sell.")
+theme.header("recommend", "Product Recommendations", "Market-basket analysis: what do customers buy together? Use it for bundles and cross-sell.")
 
 pairs = M.top_pairs(model, names, 15)
 st.subheader("Top bundle ideas")

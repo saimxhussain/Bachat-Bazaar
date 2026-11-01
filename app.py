@@ -1,6 +1,10 @@
 import streamlit as st
 
+from core import theme
+
 st.set_page_config(page_title="Store Sales Agent", page_icon="🛒", layout="wide")
+
+theme.apply()
 
 nav = st.navigation([
     st.Page("views/home.py", title="Home", icon="🏠", default=True),

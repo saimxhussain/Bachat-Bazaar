@@ -2,14 +2,15 @@ import plotly.express as px
 import streamlit as st
 
 from core import models as M
+from core import theme
 from core.data import load_data
 from core.llm import ask, chat_panel
 
 df = load_data()
 names = M.product_names(df)
 
-st.title("🛒 Store Sales Agent")
-st.caption("From forecast to promotion: 7 ML tools that cover the whole sales funnel.")
+theme.hero("Store overview", "Welcome back",
+           "Seven tools, from forecast to promotion. Start with this week's action plan below.")
 
 c = st.columns(4)
 c[0].metric("Revenue", f"£{df.Revenue.sum():,.0f}")
@@ -17,20 +18,24 @@ c[1].metric("Orders", f"{df.InvoiceNo.nunique():,}")
 c[2].metric("Customers", f"{df.CustomerID.nunique():,}")
 c[3].metric("Products", f"{df.StockCode.nunique():,}")
 
+st.subheader("Your tools")
+TOOLS = [
+    ("forecast", "Sales Forecast", "Plan", "Daily revenue for the next weeks.", "views/forecast.py"),
+    ("segments", "Customer Segments", "Understand", "Who your best and quietest customers are.", "views/segments.py"),
+    ("recommend", "Recommendations", "Sell more", "Products that sell well together.", "views/recommend.py"),
+    ("churn", "Churn Risk", "Retain", "Customers about to stop buying.", "views/churn.py"),
+    ("clv", "Customer Value", "Grow", "Who will spend the most next year.", "views/clv.py"),
+    ("stock", "Stock Alerts", "Supply", "What to reorder before it runs out.", "views/stock.py"),
+    ("pricing", "Promotions", "Convert", "Discounts that lift sales and protect profit.", "views/pricing.py"),
+]
+for row in (TOOLS[:4], TOOLS[4:]):
+    cols = st.columns(4)
+    for col, t in zip(cols, row):
+        with col:
+            theme.tile(*t)
+
 monthly = df.groupby(df.Date.dt.to_period("M").astype(str)).Revenue.sum().reset_index()
 st.plotly_chart(px.bar(monthly, x="Date", y="Revenue", title="Monthly revenue"), width="stretch")
-
-st.markdown("""
-| Funnel stage | Tool | ML method |
-|---|---|---|
-| Plan | 📈 Sales Forecast | Gradient Boosting (time series) |
-| Understand | 👥 Customer Segments | RFM + K-Means |
-| Sell more | 🛍️ Recommendations | Market-basket (lift) |
-| Retain | ⚠️ Churn Risk | Random Forest |
-| Grow | 💎 Customer Value | Gradient Boosting regression |
-| Supply | 📦 Stock Alerts | Trend demand forecast + safety stock |
-| Convert | 🏷️ Promotions | Price elasticity regression |
-""")
 
 
 def full_context():

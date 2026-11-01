@@ -2,12 +2,12 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from core import models as M
+from core import theme
 from core.data import load_data
 from core.llm import chat_panel
 
 df = load_data()
-st.title("📈 Sales Forecast")
-st.caption("Predicts daily revenue so you can plan staff, stock and promotions.")
+theme.header("forecast", "Sales Forecast", "Predicts daily revenue so you can plan staff, stock and promotions.")
 
 horizon = st.slider("Days to forecast", 7, 30, 14)
 r = M.sales_forecast(df, horizon)
@@ -20,7 +20,7 @@ c[2].metric("Beats naive baseline by", f"{1 - r['mae'] / r['mae_naive']:.0%}",
 
 h = r["history"].iloc[-90:]
 fig = go.Figure()
-fig.add_scatter(x=h.index, y=h.values, name="Actual", line=dict(color="#888"))
+fig.add_scatter(x=h.index, y=h.values, name="Actual", line=dict(color="#C9C5F5"))
 fig.add_scatter(x=r["backtest"].index, y=r["backtest"].predicted, name="Backtest (unseen)", line=dict(dash="dot"))
 fig.add_scatter(x=r["forecast"].index, y=r["forecast"].values, name="Forecast", line=dict(width=3))
 fig.update_layout(title="Daily revenue", yaxis_title="£", legend=dict(orientation="h"))
