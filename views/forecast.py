@@ -20,7 +20,7 @@ c[2].metric("Beats naive baseline by", f"{1 - r['mae'] / r['mae_naive']:.0%}",
 
 h = r["history"].iloc[-90:]
 fig = go.Figure()
-fig.add_scatter(x=h.index, y=h.values, name="Actual", line=dict(color="#C9C5F5"))
+fig.add_scatter(x=h.index, y=h.values, name="Actual", line=dict(color="#9CA3AF"))
 fig.add_scatter(x=r["backtest"].index, y=r["backtest"].predicted, name="Backtest (unseen)", line=dict(dash="dot"))
 fig.add_scatter(x=r["forecast"].index, y=r["forecast"].values, name="Forecast", line=dict(width=3))
 fig.update_layout(title="Daily revenue", yaxis_title="£", legend=dict(orientation="h"))
