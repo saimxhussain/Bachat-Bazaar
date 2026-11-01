@@ -56,7 +56,7 @@ def _wiki(q: str) -> str:
             "action": "query", "format": "json", "generator": "search", "gsrnamespace": 6,
             "gsrsearch": q, "gsrlimit": 3, "prop": "imageinfo", "iiprop": "url", "iiurlwidth": 120})
         req = urllib.request.Request("https://commons.wikimedia.org/w/api.php?" + params,
-                                     headers={"User-Agent": "RetailIQ-dashboard/1.0"})
+                                     headers={"User-Agent": "BachatBazaar-dashboard/1.0"})
         with urllib.request.urlopen(req, timeout=5) as r:
             pages = (json.load(r).get("query") or {}).get("pages") or {}
         for p in pages.values():

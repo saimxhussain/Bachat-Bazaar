@@ -1,4 +1,4 @@
-"""RetailIQ page components: top bar + search, KPI cards, tables, quick actions, action plan."""
+"""Bachat Bazaar page components: top bar + search, KPI cards, tables, quick actions, action plan."""
 import os
 from datetime import datetime
 from html import escape

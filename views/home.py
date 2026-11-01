@@ -60,9 +60,10 @@ with main:
             x=series.index, y=series.values, mode="lines", line=dict(color="#3B63F5", width=2.6, shape="spline", smoothing=1),
             fill="tozeroy", fillcolor="rgba(59,99,245,.13)",
             hovertemplate="%{x|%b %d, %Y}<br><b>" + fmt + "</b><extra></extra>"))
-        fig.update_layout(template="bazaar", height=300, margin=dict(l=0, r=0, t=6, b=0), showlegend=False)
+        fig.update_layout(template="bazaar", height=300, margin=dict(l=0, r=0, t=6, b=0), showlegend=False,
+                          paper_bgcolor="#FFFFFF", plot_bgcolor="#FFFFFF", font=dict(color="#374151"))
         fig.update_xaxes(showgrid=False, tickformat="%b %d")
-        fig.update_yaxes(rangemode="tozero", tickprefix="£" if metric == "Revenue" else "", tickformat="~s")
+        fig.update_yaxes(gridcolor="#EEF0F6", rangemode="tozero", tickprefix="£" if metric == "Revenue" else "", tickformat="~s")
         st.plotly_chart(fig, width="stretch")
 
     # ── top products + recent orders ─────────────────────────────────────

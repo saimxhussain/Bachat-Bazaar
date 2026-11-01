@@ -3,7 +3,7 @@ import streamlit as st
 from core import theme, ui
 from core.data import load_data
 
-st.set_page_config(page_title="RetailIQ", page_icon="🛒", layout="wide")
+st.set_page_config(page_title="Bachat Bazaar", page_icon="🛍️", layout="wide")
 
 theme.apply()
 ui.topbar(load_data())

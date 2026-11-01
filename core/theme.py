@@ -1,4 +1,4 @@
-"""RetailIQ look: clean light dashboard, Inter type, blue accent, soft glass icon tiles.
+"""Bachat Bazaar look: clean light dashboard, Inter type, blue accent, soft glass icon tiles.
 
 Call `theme.apply()` once from app.py. Page components live in core/ui.py.
 """
@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 import plotly.io as pio
 import streamlit as st
 
-BRAND = "RetailIQ"
+BRAND = "Bachat Bazaar"
 BLUE, GREEN, ORANGE, PURPLE, CORAL = "#3B63F5", "#16A34A", "#F97316", "#8B5CF6", "#F0405E"
 PALETTE = [BLUE, GREEN, ORANGE, PURPLE, CORAL, "#0EA5C6", "#F5B301"]
 
@@ -43,10 +43,17 @@ PAGES = {
     "stock": ("box", "green"), "pricing": ("tag", "orange"),
 }
 
-LOGO = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E"
-        "%3Crect width='36' height='36' rx='10' fill='%23111827'/%3E"
-        "%3Ccircle cx='18' cy='18' r='6.5' fill='none' stroke='white' stroke-width='3'/%3E"
-        "%3Cpath d='M18 18l5.5-5.5' stroke='%2360A5FA' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")
+LOGO = ("data:image/svg+xml," + quote(
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'>"
+    "<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#3B63F5'/>"
+    "<stop offset='1' stop-color='#7C4DFF'/></linearGradient></defs>"
+    "<rect width='36' height='36' rx='10' fill='url(#g)'/>"
+    "<path d='M13.4 14.5V12a4.6 4.6 0 0 1 9.2 0v2.5' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'/>"
+    "<path d='M9 14.5h18l-1.3 13.6a2 2 0 0 1-2 1.8H12.3a2 2 0 0 1-2-1.8z' fill='white'/>"
+    "<path d='M15.6 18.6v8.6M15.6 18.6h2.9a2.1 2.1 0 0 1 0 4.2h-2.9M15.6 22.8h3.2a2.2 2.2 0 0 1 0 4.4h-3.2' "
+    "fill='none' stroke='#3B63F5' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/>"
+    "<circle cx='28.6' cy='8' r='3.3' fill='#FFB020'/><path d='M28.6 6.4v3.2M27.2 8h2.8' stroke='white' "
+    "stroke-width='1.1' stroke-linecap='round'/></svg>", safe=""))
 
 CSS = """
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -78,7 +85,7 @@ h1,h2,h3{letter-spacing:-.015em;font-weight:700 !important}
 /* ── sidebar ───────────────────────────────────────────── */
 [data-testid="stSidebar"]{background:#F6F7FB !important;border-right:1px solid var(--line)}
 [data-testid="stSidebarHeader"]{padding:1.5rem 1.1rem 1rem}
-[data-testid="stSidebarHeader"]::before{content:"RetailIQ";flex:1;font-weight:700;font-size:1.3rem;letter-spacing:-.02em;
+[data-testid="stSidebarHeader"]::before{content:"Bachat Bazaar";flex:1;font-weight:700;font-size:1.12rem;white-space:nowrap;letter-spacing:-.02em;
   line-height:38px;padding-left:50px;background:url("LOGO_URI") no-repeat left center/38px 38px}
 [data-testid="stSidebarNavLink"]{border-radius:12px !important;margin:3px 0;padding:.55rem .8rem;font-weight:500;color:#374151}
 [data-testid="stSidebarNavLink"]:hover{background:#ECEFF8 !important}
@@ -233,6 +240,51 @@ h1,h2,h3{letter-spacing:-.015em;font-weight:700 !important}
 .bz-ap > div:nth-child(2){min-width:0;flex:1}
 .bz-ap .pill{flex:none;overflow:visible;max-width:none}
 .bz-ap .go{margin-left:.2rem;color:#9CA3AF;font-size:16px}
+
+/* ── force the light look in code (works even when Streamlit runs its dark theme) ── */
+[data-testid="stAppViewContainer"],[data-testid="stMain"],[data-testid="stHeader"]{background:#FAFBFD !important;color:var(--text)}
+[data-testid="stSidebar"],[data-testid="stSidebar"] > div{background:#F6F7FB !important}
+[data-testid="stToolbar"] *,[data-testid="stHeader"] button{color:#374151 !important}
+/* selects / inputs */
+/* selectbox (newer Streamlit renders it without baseweb attributes) */
+[data-testid="stSelectbox"] > div > div{background:#fff !important;border:1px solid var(--line) !important;border-radius:12px !important}
+[data-testid="stSelectbox"] > div > div *{color:var(--text) !important;-webkit-text-fill-color:var(--text);background-color:transparent !important}
+[data-testid="stSelectbox"] > div > div svg{fill:#6B7280 !important;color:#6B7280 !important}
+[role="listbox"],[role="listbox"] *,[role="option"]{background-color:#fff !important;color:var(--text) !important}
+[role="option"]:hover,[role="option"][aria-selected="true"]{background-color:#EAF0FF !important}
+body > div:has(> [role="listbox"]),body > div:has(> div > [role="listbox"]),[data-testid="stSelectboxVirtualDropdown"]{background:#fff !important}
+[data-testid="stSelectbox"] [data-baseweb="select"],[data-testid="stSelectbox"] [data-baseweb="select"] div,
+[data-testid="stSelectbox"] [data-baseweb="select"] input{background-color:#fff !important;color:var(--text) !important;-webkit-text-fill-color:var(--text)}
+[data-testid="stSelectbox"] [data-baseweb="select"] > div{border:1px solid var(--line) !important;border-radius:12px !important}
+[data-testid="stSelectbox"] svg{fill:#6B7280 !important}
+[data-baseweb="popover"],[data-baseweb="popover"] > div,[data-baseweb="popover"] ul,[data-baseweb="popover"] li{
+  background:#fff !important;color:var(--text) !important}
+[data-baseweb="popover"] li:hover,[data-baseweb="popover"] li[aria-selected="true"]{background:#EAF0FF !important}
+[data-testid="stTextInput"] [data-baseweb="input"],[data-testid="stTextInput"] [data-baseweb="base-input"],
+[data-testid="stTextInput"] input{background:#fff !important;color:var(--text) !important;-webkit-text-fill-color:var(--text)}
+[data-testid="stTextInput"] [data-baseweb="input"]{border:1px solid var(--line) !important;border-radius:12px !important}
+[data-testid="stTextInput"] input::placeholder{color:#9CA3AF !important;-webkit-text-fill-color:#9CA3AF}
+[data-testid="stTextInput"] [data-baseweb="input"]:focus-within{border-color:var(--blue) !important;box-shadow:0 0 0 3px rgba(59,99,245,.15)}
+.st-key-bz_search [data-baseweb="input"]{border:1px solid var(--line) !important}
+/* segmented control */
+[data-testid="stButtonGroup"],[data-testid="stButtonGroup"] > div{background:#F1F3F9 !important;border:none !important}
+[data-testid="stButtonGroup"] button{background:transparent !important;color:var(--muted) !important;border:none !important;
+  box-shadow:none !important;border-radius:9px !important}
+[data-testid="stButtonGroup"] button p{color:inherit !important}
+[data-testid="stButtonGroup"] button[aria-pressed="true"],[data-testid="stButtonGroup"] button[aria-checked="true"],
+[data-testid="stButtonGroup"] button[data-testid$="Active"]{background:#fff !important;color:var(--text) !important;
+  box-shadow:0 1px 3px rgba(16,24,40,.14) !important;font-weight:600}
+/* charts: no dark plot / grid, whatever theme Streamlit picked */
+[data-testid="stPlotlyChart"],[data-testid="stPlotlyChart"] > div,.js-plotly-plot,.plotly,.plot-container,.svg-container{background:#fff !important}
+.js-plotly-plot .main-svg{background:transparent !important}
+.js-plotly-plot .main-svg .bg{fill:#fff !important}
+.js-plotly-plot .gridlayer path{stroke:#EEF0F6 !important}
+.js-plotly-plot .zerolinelayer path{stroke:#E5E7EB !important}
+.js-plotly-plot .xtick text,.js-plotly-plot .ytick text,.js-plotly-plot .legend text,.js-plotly-plot .gtitle{fill:#374151 !important}
+/* tables / metrics / expanders / chat */
+[data-testid="stExpander"] summary,[data-testid="stExpander"] summary *{color:var(--text) !important}
+[data-testid="stChatInput"] textarea{background:#fff !important;color:var(--text) !important;-webkit-text-fill-color:var(--text)}
+[data-testid="stSlider"] [data-testid="stTickBarMin"],[data-testid="stSlider"] [data-testid="stTickBarMax"]{color:var(--muted)}
 
 @media (prefers-reduced-motion:reduce){*{transition:none !important}}
 """.replace("LOGO_URI", LOGO)
