@@ -34,9 +34,9 @@ plan = M.reorder_plan(dem, stock, lead, z, cover)
 plan.insert(0, "Product", [names[i] for i in plan.index])
 counts = plan.status.value_counts()
 m = st.columns(3)
-m[0].metric("🔴 Stock-out risk", counts.get("Stock-out risk", 0))
-m[1].metric("🟠 Reorder now", counts.get("Reorder now", 0))
-m[2].metric("🟢 OK", counts.get("OK", 0))
+m[0].metric(":red[:material/error:] Stock-out risk", counts.get("Stock-out risk", 0))
+m[1].metric(":orange[:material/warning:] Reorder now", counts.get("Reorder now", 0))
+m[2].metric(":green[:material/check_circle:] OK", counts.get("OK", 0))
 
 alerts = plan[plan.status != "OK"].sort_values("days_cover")
 view = alerts[["Product", "status", "on_hand", "days_cover", "reorder_point", "order_qty"]]
