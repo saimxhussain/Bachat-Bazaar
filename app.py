@@ -1,11 +1,13 @@
 import streamlit as st
 
 from core import theme, ui
+from core.auth import require_login
 from core.data import load_data
 
 st.set_page_config(page_title="Bachat Bazaar", page_icon="🛍️", layout="wide")
 
 theme.apply()
+require_login()          # nothing below runs until login succeeds
 ui.topbar(load_data())
 
 nav = st.navigation([
