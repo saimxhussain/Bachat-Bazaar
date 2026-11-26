@@ -3,8 +3,10 @@ import hmac
 
 import streamlit as st
 
+
 def _h(p: str) -> str:
     return hashlib.sha256(p.encode()).hexdigest()
+
 
 # username -> sha256(password). To add a user: USERS["name"] = _h("password")
 USERS = {
@@ -17,7 +19,10 @@ CSS = f"""
 <style>
 header[data-testid="stHeader"], [data-testid="stSidebar"],
 [data-testid="stSidebarCollapsedControl"], footer {{ display:none !important; }}
-.stApp {{ background: linear-gradient({YELLOW} 0, {YELLOW} 300px, #ffffff 300px) !important; }}
+
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {{
+    background: linear-gradient({YELLOW} 0, {YELLOW} 300px, #ffffff 300px) !important;
+}}
 .block-container {{ max-width: 420px !important; padding-top: 3rem !important; }}
 
 .login-head h1 {{ color:#000 !important; font-size:2.2rem; font-weight:800; margin:0 0 .4rem 0; padding:0; }}
