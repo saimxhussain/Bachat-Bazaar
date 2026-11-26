@@ -207,6 +207,7 @@ h1,h2,h3{letter-spacing:-.015em;font-weight:700 !important}
 .st-ok{--c:#16A34A}.st-low{--c:#F59E0B}.st-out{--c:#DC2626}.st-na{--c:#9CA3AF}
 .bz-t .tr .tc{display:flex;align-items:center;gap:.4rem}
 .bz-t .spark{height:24px;margin:0;width:56px;flex:none}
+.chip .ic,.up-t .ic,.down-t .ic{width:.9em;height:.9em;vertical-align:-.1em}
 .up-t{color:var(--green);font-weight:600}.down-t{color:var(--red);font-weight:600}
 .bz-note{margin:.6rem 0 0;color:#9CA3AF;font-size:.72rem}
 
