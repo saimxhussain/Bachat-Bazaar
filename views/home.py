@@ -131,7 +131,7 @@ def full_context():
 
 with st.container(key="card-ai"):
     st.html(ui.card_head("AI Advisor", "Press the button for a full plan, or ask your own question below.", "sparkle"))
-    if st.button("✨ Generate this week's action plan", type="primary"):
+        if st.button("Generate this week's action plan", icon=":material/auto_awesome:", type="primary"):
         with st.spinner("Running all models and asking the AI..."):
             ctx = full_context()
             st.session_state["ctx_home"] = ctx
