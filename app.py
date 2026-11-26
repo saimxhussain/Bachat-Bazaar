@@ -6,8 +6,8 @@ from core.data import load_data
 
 st.set_page_config(page_title="Bachat Bazaar", page_icon="🛍️", layout="wide")
 
+require_login()          # login first; nothing below runs until success
 theme.apply()
-require_login()          # nothing below runs until login succeeds
 ui.topbar(load_data())
 
 nav = st.navigation([
