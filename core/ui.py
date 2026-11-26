@@ -65,7 +65,7 @@ def spark(vals, w=130, h=46, pad=3) -> str:
 def _chip(p) -> str:
     if p is None:
         return '<span class="chip flat">–</span>'
-    cls, arrow = ("up", "↑") if p >= 0 else ("down", "↓")
+    cls, arrow = ("up", icon("arrow-up")) if p >= 0 else ("down", icon("arrow-down"))
     return f'<span class="chip {cls}">{arrow} {abs(p) * 100:.1f}%</span>'
 
 
@@ -118,7 +118,7 @@ def _search_results(df: pd.DataFrame, q: str):
 
 # ───────────── home components ─────────────
 def hello(period_text: str):
-    st.html(f'<div class="bz-hello"><small>{greeting()},</small><h1>Welcome back, {escape(owner())} 👋</h1>'
+    st.html(f'<div class="bz-hello"><small>{greeting()},</small><h1>Welcome back, {escape(owner())}</h1>'
             f'<p>Here’s what’s happening with your store {escape(period_text)}.</p></div>')
 
 
@@ -141,7 +141,7 @@ def top_products(rows: list, note: str):
     for r in rows:
         tp = r["trend_pct"]
         trend = ("new" if tp is None else
-                 f'<span class="{"up-t" if tp >= 0 else "down-t"}">{"↑" if tp >= 0 else "↓"} {abs(tp) * 100:.0f}%</span>')
+                 f'<span class="{"up-t" if tp >= 0 else "down-t"}">{icon("arrow-up") if tp >= 0 else icon("arrow-down")} {abs(tp) * 100:.0f}%</span>')
         st_txt = r["stock"] or "–"
         out += (f'<div class="tr"><span>{r["rank"]}</span>'
                 f'<div class="bz-p">{_img(r["img"])}<div><b title="{escape(r["name"], quote=True)}">{escape(r["name"])}</b>'
